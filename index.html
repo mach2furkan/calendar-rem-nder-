@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Calendar Reminder</title>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-30px); }
+      60% { transform: translateY(-15px); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #0078d7; }
+      50% { box-shadow: 0 0 20px #0078d7; }
+      100% { box-shadow: 0 0 5px #0078d7; }
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes particleMove {
+      from { transform: translateY(0px); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      overflow: hidden;
+    }
+
+    .floating-shape {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .shape-1 {
+      width: 80px;
+      height: 80px;
+      top: 10%;
+      left: 20%;
+    }
+
+    .shape-2 {
+      width: 50px;
+      height: 50px;
+      top: 40%;
+      left: 70%;
+      animation-duration: 8s;
+    }
+
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: particleMove 5s linear infinite;
+    }
+
+    .particle-1 {
+      top: 100%;
+      left: 30%;
+    }
+
+    .particle-2 {
+      top: 100%;
+      left: 60%;
+      animation-duration: 7s;
+    }
+
+    .calendar-container {
+      margin: 50px auto;
+      max-width: 800px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: zoomIn 1.5s ease;
+    }
+
+    .header {
+      background-color: #0078d7;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      animation: bounce 2s infinite;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .reminder-form {
+      padding: 20px;
+      animation: glow 2s infinite;
+    }
+
+    .reminder-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .reminder-form input,
+    .reminder-form textarea,
+    .reminder-form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .reminder-form button {
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .reminder-form button:hover {
+      background-color: #005bb5;
+    }
+
+    .calendar {
+      padding: 20px;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .calendar th,
+    .calendar td {
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      transition: background-color 0.3s ease;
+    }
+
+    .calendar th {
+      background-color: #0078d7;
+      color: white;
+      animation: rotate 4s linear infinite;
+    }
+
+    .calendar td:hover {
+      background-color: #d0e7ff;
+    }
+
+    .reminders {
+      margin: 20px 0;
+    }
+
+    .reminder-item {
+      background: #e9f5ff;
+      border: 1px solid #0078d7;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .footer {
+      background-color: #0078d7;
+      color: #ffffff;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .search {
+      margin: 20px 0;
+      padding: 0 20px;
+    }
+
+    .search input {
+      width: calc(100% - 100px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .search button {
+      width: 80px;
+      padding: 10px;
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search button:hover {
+      background-color: #005bb5;
+    }
+
+    .quote-of-the-day {
+      background-color: #e9f5ff;
+      border: 1px solid #0078d7;
+      padding: 15px;
+      margin: 20px 20px 0;
+      border-radius: 5px;
+      text-align: center;
+      font-style: italic;
+      animation: pulse 3s infinite;
+    }
+  </style>
+</head>
+<body>
+<div class="floating-shape shape-1"></div>
+<div class="floating-shape shape-2"></div>
+<div class="particle particle-1"></div>
+<div class="particle particle-2"></div>
+<div class="calendar-container">
+  <div class="header">
+    <h1>Advanced Calendar Reminder</h1>
+  </div>
+  <div class="reminder-form">
+    <label for="reminder-title">Reminder Title:</label>
+    <input type="text" id="reminder-title" placeholder="Enter reminder title">
+
+    <label for="reminder-date">Reminder Date:</label>
+    <input type="date" id="reminder-date">
+
+    <label for="reminder-time">Reminder Time:</label>
+    <input type="time" id="reminder-time">
+
+    <label for="reminder-description">Description:</label>
+    <textarea id="reminder-description" rows="4" placeholder="Enter reminder details"></textarea>
+
+    <button onclick="addReminder()">Add Reminder</button>
+  </div>
+  <div class="search">
+    <label for="search-reminders">Search Reminders:</label>
+    <input type="text" id="search-reminders" placeholder="Type to search reminders">
+    <button onclick="searchReminders()">Search</button>
+  </div>
+  <div class="calendar">
+    <table>
+      <thead>
+      <tr>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+      </thead>
+      <tbody id="calendar-body">
+      <!-- Calendar days will be dynamically inserted here -->
+      </tbody>
+    </table>
+  </div>
+  <div class="quote-of-the-day" id="quote">
+    "Your time is limited, so don't waste it living someone else's life." - Steve Jobs
+  </div>
+  <div class="reminders">
+    <h2>Your Reminders:</h2>
+    <div id="reminder-list"></div>
+  </div>
+</div>
+<div class="footer">
+  <p>&copy; 2025 Advanced Calendar Reminder. All Rights Reserved.</p>
+</div>
+
+<script>
+  function addReminder() {
+    const title = document.getElementById('reminder-title').value;
+    const date = document.getElementById('reminder-date').value;
+    const time = document.getElementById('reminder-time').value;
+    const description = document.getElementById('reminder-description').value;
+
+    if (!title || !date || !time) {
+      alert('Please fill in all required fields!');
+      return;
+    }
+
+    const reminderList = document.getElementById('reminder-list');
+    const reminderItem = document.createElement('div');
+    reminderItem.className = 'reminder-item';
+    reminderItem.innerHTML = `<strong>${title}</strong><br>${date} at ${time}<br>${description}`;
+
+    reminderList.appendChild(reminderItem);
+
+    document.getElementById('reminder-title').value = '';
+    document.getElementById('reminder-date').value = '';
+    document.getElementById('reminder-time').value = '';
+    document.getElementById('reminder-description').value = '';
+  }
+
+  function searchReminders() {
+    const searchText = document.getElementById('search-reminders').value.toLowerCase();
+    const reminders = document.querySelectorAll('.reminder-item');
+
+    reminders.forEach(reminder => {
+      if (reminder.innerText.toLowerCase().includes(searchText)) {
+        reminder.style.display = 'block';
+      } else {
+        reminder.style.display = 'none';
+      }
+    });
+  }
+
+  // Function to dynamically generate calendar (simple version)
+  function generateCalendar() {
+    const calendarBody = document.getElementById('calendar-body');
+    const daysInMonth = new Date(2025, 1, 0).getDate(); // Example: February 2025
+    let date = 1;
+
+    for (let i = 0; i < 5; i++) {
+      const row = document.createElement('tr');
+      for (let j = 0; j < 7; j++) {
+        const cell = document.createElement('td');
+        if (date <= daysInMonth) {
+          cell.textContent = date;
+          date++;
+        }
+        row.appendChild(cell);
+      }
+      calendarBody.appendChild(row);
+    }
+  }
+
+  generateCalendar();
+</script>
+</body>
+</html>
